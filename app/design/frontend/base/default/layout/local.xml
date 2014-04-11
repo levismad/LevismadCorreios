@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * local.xml
+ *
+ * Local layout modifications for our local theme
+ *
+ * @category    design
+ * @package     my_theme_default
+ * @copyright   Copyright (c) 2011 Magebase.
+ */
+-->
+<layout version="0.1.0">
+<default>
+    <reference name="head">
+    	<action method="addItem">
+            <type>skin_js</type>
+            <name>js/jquery-1.11.0.min.js</name>
+            <params/>
+        </action>
+        <block type="core/text" name="google.cdn.jquery">
+            <action method="setText">
+                <text><![CDATA[<script type="text/javascript">var jQuery = jQuery.noConflict();</script>]]>
+                </text>
+            </action>
+        </block>
+    </reference>
+</default>
+<checkout_onepage_index>
+    <reference name="head">
+        <action method="addItem">
+            <type>skin_js</type>
+            <name>js/communFunctions.js</name>
+            <params/>
+        </action>
+        <action method="addItem">
+            <type>skin_js</type>
+            <name>js/spin.min.js</name>
+        </action>
+        <action method="addItem">
+            <type>skin_js</type>
+            <name>js/getAddress.js</name>
+        </action>
+    </reference>
+
+</checkout_onepage_index>
+</layout>

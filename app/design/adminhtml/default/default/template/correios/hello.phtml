@@ -1,0 +1,39 @@
+
+<div class="content-header">
+    <table cellspacing="0">
+        <tbody>
+            <tr>
+                <td>
+                     <h3>Módulo Correios</h3>
+
+                </td>
+                <td class="form-buttons">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<form id="myform" action="<?php echo $this->getUrl('*/correios'); ?>" method="POST">
+	<input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>" />
+<div class="entry-edit">
+   <table cellspacing="0" class="form-list">
+    <tbody>
+        <tr>
+            <td class="label">
+                <label>Zerar/Carregar Base de CEP's:</label>
+            </td>
+            <td class="form-buttons">
+	            <button title="Carregar Base" type="submit" class="scalable save" style=""><span><span><span>Carregar Base</span></span>
+	                </span>
+	            </button>
+	        </td>
+    </tbody>
+</table>
+<?php
+if($_SERVER['REQUEST_METHOD'] === "POST")  {
+    echo $this->getHello();
+}
+?>
+</div>
+
+</form>

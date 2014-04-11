@@ -19,12 +19,28 @@ class Levismad_Correios_IndexController extends Mage_Core_Controller_Front_Actio
         parse_str($_SERVER['QUERY_STRING']);
         if($cep){
             $results = $connection->query('SELECT * FROM cep where cep = \''.$cep.'\'')->fetchAll();
-            echo json_encode($results);
+            if(count($results)){
+                $results[0]["resultado"] = 1;
+                $sql = $connection->query('SELECT `Cep1`,`Cep2`,`UF` FROM cep_index')->fetchAll();
+                $i = 0;
+                $cepa =  substr($cep, 0,5);
+                for($x = 0; $x<(count($sql,0)-1);$x++){
+                    if(((int)$cepa >= (int)$sql[$x]["Cep1"]) && ((int)$cepa <= (int)$sql[$x]["Cep2"])){
+                         $results[0]["estado"] = $sql[$x]["UF"];;
+                    }
+                }
+                echo json_encode($results);
+            }
+            else{
+                $results["resultado"] = 0;
+                echo json_encode($results);
+            }
         
         }
         else{
 
-            echo "Cep invalido.";
+                $results["resultado"] = 0;
+                echo json_encode($results);
         }
         
     }

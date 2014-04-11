@@ -1,22 +1,16 @@
-<?xml version="1.0"?>
-<!DOCTYPE config>
-<!--
-/**
- * app/etc/modules/Levismad_Correios.xml
- *
- *
- * @author    Levi Esteves <levi.esteves@gmail.com>
- * @category  Levismad
- * @package   Correios
- * @copyright Copyright (c) 2014 Levismad (htttp://www.levismad.com/)
- */
--->
+<?xml version = "1.0"?>
 <config>
-    <modules>
-        <Levismad_Correios>
-            <active>true</active>
-            <codePool>local</codePool>
-            <depends />
-        </Levismad_Correios>
-    </modules>
+	<modules>
+		<!--
+			format of tag below is: Namespace_Module
+			in our case namespace will be Levismad, and module name is Correios
+		-->
+		<Levismad_Correios>
+			<!--
+				Tag active: true will tell magento to enable our module in magento
+			-->
+			<active>true</active>
+			<codePool>local</codePool>
+		</Levismad_Correios>
+	</modules>
 </config>

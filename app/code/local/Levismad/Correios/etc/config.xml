@@ -1,22 +1,10 @@
 <?xml version="1.0"?>
-<!DOCTYPE config>
-<!--
-/**
- * app/code/local/Levismad/Correios/etc/config.xml
- *
- *
- * @author    Levi Esteves <levi.esteves@gmail.com>
- * @category  Levismad
- * @package   Correios
- * @copyright Copyright (c) 2014 Levismad (htttp://www.levismad.com/)
- */
--->
 <config>
-    <modules>
-        <Levismad_Correios>
-            <version>0.0.0</version>
-        </Levismad_Correios>
-    </modules>
+	<modules>
+		<Levismad_Correios>
+			<version>1.0.0</version>
+		</Levismad_Correios>
+	</modules>
     <global>
         <models>
             <correios>
@@ -34,6 +22,28 @@
             </correios>
         </helpers>
     </global>
+	<admin>
+		<routers>
+			<adminhtml>
+				<args>
+					<modules>
+						<levismad_correios after="Mage_Adminhtml">Levismad_Correios_Adminhtml</levismad_correios>
+					</modules>
+				</args>
+			</adminhtml>
+		</routers>
+	</admin>
+	
+	<adminhtml>
+		<layout>
+			<updates>
+				<correios>
+					<file>correios.xml</file>
+				</correios>
+			</updates>
+		</layout>
+	</adminhtml>
+	
 
     <frontend>
         <routers>
