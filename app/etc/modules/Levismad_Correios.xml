@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE config>
+<!--
+/**
+ * app/etc/modules/Levismad_Correios.xml
+ *
+ *
+ * @author    Levi Esteves <levi.esteves@gmail.com>
+ * @category  Levismad
+ * @package   Correios
+ * @copyright Copyright (c) 2014 Levismad (htttp://www.levismad.com/)
+ */
+-->
+<config>
+    <modules>
+        <Levismad_Correios>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends />
+        </Levismad_Correios>
+    </modules>
+</config>
