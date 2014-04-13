@@ -1,15 +1,15 @@
-jQuery(document).ready(function(){
-   spinner.initialize();
-   var a = jQuery("body").find("input[name*='[postcode]']");
+jQuery(document).ready(function () {
+    spinner.initialize();
+    var a = jQuery("body").find("input[name*='[postcode]']");
 
-    for(i =0;i< a.length;i++){
+    for (i = 0; i < a.length; i++) {
         var name = jQuery(a[i]).attr('id');
-        name= name.substr(0, name.indexOf(':')); 
-        jQuery(a[i]).attr('onblur', "buscaCep(\""+name+"\")");
+        name = name.substr(0, name.indexOf(':'));
+        jQuery(a[i]).attr('onblur', "buscaCep(\"" + name + "\")");
     }
 });
 
-var url = "http://localhost/html/Correios";
+var url = "http://localhost/Correios";
 
 var spinner = {
 
@@ -75,130 +75,139 @@ var spinner = {
 
     },
     _createEvents: function () {
-       
-            var opts = {
-                lines: 9, // The number of lines to draw
-                length: 5, // The length of each line
-                width: 2, // The line thickness
-                radius: 4, // The radius of the inner circle
-                corners: 1, // Corner roundness (0..1)
-                rotate: 0, // The rotation offset
-                direction: 1, // 1: clockwise, -1: counterclockwise
-                color: '#AAA', // #rgb or #rrggbb or array of colors
-                speed: 1.6, // Rounds per second
-                trail: 100, // Afterglow percentage
-                shadow: false, // Whether to render a shadow
-                hwaccel: false, // Whether to use hardware acceleration
-                className: 'spinner', // The CSS class to assign to the spinner
-                zIndex: 2e9, // The z-index (defaults to 2000000000)
-                top: 'auto', // Top position relative to parent in px
-                left: 'auto' // Left position relative to parent in px
-            };
-            var target = document.getElementById('spinJs');
-            var spinner = new Spinner(opts).spin(target);
-            this._toggle();
-            //show modal
+
+        var opts = {
+            lines: 9, // The number of lines to draw
+            length: 5, // The length of each line
+            width: 2, // The line thickness
+            radius: 4, // The radius of the inner circle
+            corners: 1, // Corner roundness (0..1)
+            rotate: 0, // The rotation offset
+            direction: 1, // 1: clockwise, -1: counterclockwise
+            color: '#AAA', // #rgb or #rrggbb or array of colors
+            speed: 1.6, // Rounds per second
+            trail: 100, // Afterglow percentage
+            shadow: false, // Whether to render a shadow
+            hwaccel: false, // Whether to use hardware acceleration
+            className: 'spinner', // The CSS class to assign to the spinner
+            zIndex: 2e9, // The z-index (defaults to 2000000000)
+            top: 'auto', // Top position relative to parent in px
+            left: 'auto' // Left position relative to parent in px
+        };
+        var target = document.getElementById('spinJs');
+        var spinner = new Spinner(opts).spin(target);
+        this._toggle();
+        //show modal
 
     },
-    _toggle: function(){
+    _toggle: function () {
 
-            jQuery("#bg_fade_cep").toggle();
-            jQuery("#containerCepDiv").toggle();
+        jQuery("#bg_fade_cep").toggle();
+        jQuery("#containerCepDiv").toggle();
     },
-    _hide: function(){
+    _hide: function () {
 
-            jQuery("#bg_fade_cep").hide();
-            jQuery("#containerCepDiv").hide();
+        jQuery("#bg_fade_cep").hide();
+        jQuery("#containerCepDiv").hide();
     }
 }
 
 
 
-function buscaCep(tipo){
+function buscaCep(tipo) {
 
     spinner._toggle();
-    switch(tipo){
-        case "zip": 
+    switch (tipo) {
+        case "zip":
             var campo = "region_id";
-            new Ajax.Request(url+'?cep=' + $('zip').value, {
+            new Ajax.Request(url + '?cep=' + $('zip').value, {
                 method: 'post',
                 onComplete: function (transport) {
                     var res = transport.responseText.evalJSON();
-                    try{
+                    try {
                         if (res[0].resultado == '1') {
-                            jQuery('street_1').value = res[0].tp_logradouro + ' ' + res[0].logradouro;
-                            jQuery('street_4').value = res[0].bairro;
-                            jQuery('city').value = res[0].cidade;
+                            $('street_1').value = res[0].tp_logradouro + ' ' + res[0].logradouro;
+                            $('city').value = res[0].cidade;
 
                             var sigla = res[0].estado;
-                            var code;
-                            populateEstados(sigla, campo);
-
+                            try {
+                                populateEstados(sigla, campo);
+                            } catch (ex) {} finally {
+                                try {
+                                    $('street_4').value = res[0].bairro;
+                                } catch (ex) {}
+                            }
                         }
-                    }
-                   catch(ex){}
-                         spinner._toggle();
+                    } catch (ex) {}
+                    spinner._toggle();
 
-                     
+
                 }
             });
             break;
         case "shipping":
             var campo = "shipping:region_id";
-            new Ajax.Request(url+'?cep=' + $('shipping:postcode').value, {
+            new Ajax.Request(url + '?cep=' + $('shipping:postcode').value, {
                 method: 'post',
                 onComplete: function (transport) {
                     var res = transport.responseText.evalJSON();
-                    try{
+                    try {
                         if (res[0].resultado == '1') {
                             $('shipping:street1').value = res[0].tp_logradouro + ' ' + res[0].logradouro;
-                            $('shipping:street4').value = res[0].bairro;
                             $('shipping:city').value = res[0].cidade;
-
                             var sigla = res[0].estado;
-                            var code;
-                            populateEstados(sigla, campo);
+                            try {
+                                populateEstados(sigla, campo);
+                            } catch (ex) {} finally {
+
+                                try {
+                                    $('shipping:street4').value = res[0].bairro;
+                                } catch (ex) {}
+                            }
 
                         }
-                    }
-                   catch(ex){}
-                         spinner._toggle();
+                    } catch (ex) {}
+                    spinner._toggle();
 
-                     
+
                 }
             });
-             break;
-        case  "billing":
+            break;
+        case "billing":
             var campo = "billing:region_id";
-                new Ajax.Request(url+'?cep=' + $('billing:postcode').value, {
-                    method: 'post',
-                    onComplete: function (transport) {
-                        var res = transport.responseText.evalJSON();
+            new Ajax.Request(url + '?cep=' + $('billing:postcode').value, {
+                method: 'post',
+                onComplete: function (transport) {
+                    var res = transport.responseText.evalJSON();
 
-                       try{
+                    try {
 
-                            if (res[0].resultado == '1') {
-                             // if (res.resultado == '1') {
-                                $('billing:street1').value = res[0].tp_logradouro + ' ' + res[0].logradouro;
-                                $('billing:street4').value = res[0].bairro;
-                                $('billing:city').value = res[0].cidade;
-
-                                var sigla = res[0].estado;
-                                var code;
-
+                        if (res[0].resultado == '1') {
+                            // if (res.resultado == '1') {
+                            $('billing:street1').value = res[0].tp_logradouro + ' ' + res[0].logradouro;
+                            $('billing:city').value = res[0].cidade;
+                            var sigla = res[0].estado;
+                            try {
                                 populateEstados(sigla, campo);
+                            } catch (ex) {} finally {
+
+                                try {
+                                    $('billing:street4').value = res[0].bairro;
+                                } catch (ex) {}
                             }
-                       }
-                       catch(ex){}
-                             spinner._toggle();
+                        }
+                    } catch (ex) {}
+                    spinner._toggle();
 
-                         }
-                });
-             break;
-        default: break;
+                }
+            });
+            break;
+        default:
+            break;
     }
-
 }
+
+
 
 function populateEstados(sigla, campo) {
     switch (sigla) {
