@@ -4,7 +4,7 @@ LevismadCorreios
 Modulo Offline Correios
 
 Modulo url (getAddres.js):<br>
-var url = "http://levismad.com/Correios";<br><br>
+var url = "http://your-domain.com/";<br><br>
 
 O arquivo local.xml:<br>
 ->Adiciona support a jQuery com noConflict<br>
